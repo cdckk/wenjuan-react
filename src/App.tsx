@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from 'react';
+// import logo from './logo.svg';
+// import './App.css';
+import List from './pages/manage/List1';
+import List2 from './pages/manage/List2'
+import { useGetInfo } from './hooks/useGetInfo';
+import { RouterProvider } from 'react-router-dom'
+import router from './router'
+import 'antd/dist/reset.css'
 
-function App() {
+const App : FC = () => {
+
+  const { loading, info } = useGetInfo()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <div className="App">
+    //   <div>{ loading ? '加载中...' : info }</div>
+    //   <List></List>
+    //   <List2></List2>
+    // </div>
+
+    <RouterProvider router={router}></RouterProvider>
   );
 }
 

@@ -18,7 +18,7 @@ const Edit: FC = () => {
   const { loading } = useLoadQuestionData()
 
   function clearSelectedId () {
-    dispatch(changeSelectId({ componentList: [], selectId:'' }))
+    dispatch(changeSelectId({ componentList: [], selectId:'', copiedComponent: null }))
   }
 
   return (

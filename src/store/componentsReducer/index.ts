@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import produce from 'immer'
 import { ComponentPropsType } from '../../components/QuestionComponents'
-import { getNextSelectedId } from './utils'
+import { getNextSelectedId, insertNewComponent } from './utils'
+import cloneDeep from 'lodash.clonedeep'
+import { nanoid } from 'nanoid'
 
 export type ComponentInfoType = {
   fe_id: string,
@@ -14,12 +16,14 @@ export type ComponentInfoType = {
 
 export type ComponentsStateType = {
   selectId: string,
-  componentList: Array<ComponentInfoType>
+  componentList: Array<ComponentInfoType>,
+  copiedComponent: ComponentInfoType | null
 }
 
 const INIT_STATE: ComponentsStateType = {
   selectId: '',
-  componentList: []
+  componentList: [],
+  copiedComponent: null
 }
 
 export const componentsSlice = createSlice({
@@ -111,10 +115,38 @@ export const componentsSlice = createSlice({
       if (curComp) {
         curComp.isLocked = !curComp.isLocked
       }
+    },
+
+    // 拷贝当前选中的组件
+    copySelectedComponent: (state: ComponentsStateType) => {
+      const { selectId, componentList = [] } = state
+      const selectedComponent = componentList.find(c => c.fe_id === selectId)
+      if (selectedComponent == null) return
+      state.copiedComponent = cloneDeep(selectedComponent) // 深拷贝
+    },
+
+    // 粘贴组件
+    pasteCopiedComponent: (state: ComponentsStateType) => {
+      const { copiedComponent } = state
+      if (copiedComponent == null) return
+      // 要把fe_id修改了
+      copiedComponent.fe_id = nanoid()
+      // 插入copiedComponent
+      insertNewComponent(state, copiedComponent)
     }
   }
 })
 
-export const { resetComponents, changeSelectId, addComponent, changeComponentProps, removeSelectedComponent, changeComponentHidden, toggleComponentLocked } = componentsSlice.actions
+export const {
+  resetComponents,
+  changeSelectId,
+  addComponent,
+  changeComponentProps,
+  removeSelectedComponent,
+  changeComponentHidden,
+  toggleComponentLocked,
+  copySelectedComponent,
+  pasteCopiedComponent
+} = componentsSlice.actions
 
 export default componentsSlice.reducer

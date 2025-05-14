@@ -1,9 +1,11 @@
 import QuestionInputConf, { QuestionInputPropsType } from './QuestionInput'
 import QuestionTitleConf, { QuestionTitlePropSType } from './QuestionTitle'
 import type, { FC } from 'react'
+import QuetionParagraphConf, { QuestionParagraphPropsType } from './QuestionParagraph'
+import QuestionInfoConf, { QuestionInfoPropsType } from './QuestionInfo'
 
 // 各个组件的prop type
-export type ComponentPropsType = QuestionInputPropsType & QuestionTitlePropSType
+export type ComponentPropsType = QuestionInputPropsType & QuestionTitlePropSType & QuestionParagraphPropsType & QuestionInfoPropsType
 
 // 组件的配置
 export type ComponentConfType = {
@@ -17,14 +19,16 @@ export type ComponentConfType = {
 // 全部组件配置列表
 const componentConfList: ComponentConfType[] = [
   QuestionInputConf,
-  QuestionTitleConf
+  QuestionTitleConf,
+  QuetionParagraphConf,
+  QuestionInfoConf
 ]
 
 // 组件分组
 export const componentConfGroup = [
   {
     groupName: '文本显示',
-    components: [QuestionTitleConf]
+    components: [QuestionInfoConf, QuestionTitleConf, QuetionParagraphConf]
   },
   {
     groupName: '用户输入',

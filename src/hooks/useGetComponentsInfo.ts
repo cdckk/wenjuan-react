@@ -5,14 +5,15 @@ import { ComponentsStateType, ComponentInfoType } from '../store/componentsReduc
 function useGetComponentInfo() {
   const components = useSelector<StateType>(state => state.components) as ComponentsStateType
   // console.log('0000', components)
-  const { componentList = [], selectId } = components
+  const { componentList = [], selectId, copiedComponent } = components
 
   const selectedComponent = componentList.find(c => c.fe_id === selectId)
 
   return {
     componentList,
     selectId,
-    selectedComponent
+    selectedComponent,
+    copiedComponent
   } 
 }
 

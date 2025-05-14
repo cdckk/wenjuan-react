@@ -42,7 +42,7 @@ function useLoadQuestionData() {
     }
 
     // 把componentList存储到redux中
-    dispatch(resetComponents({ componentList, selectId: selectedId }))
+    dispatch(resetComponents({ componentList, selectId: selectedId, copiedComponent: null }))
   }, [data])
 
   useEffect(() => {

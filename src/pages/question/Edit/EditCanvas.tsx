@@ -32,7 +32,7 @@ const EditCanvas: FC<PropsType> = ({loading}) => {
 
   function handleClick(event: MouseEvent, id: string) {
     event.stopPropagation() // 组织冒泡
-    dispatch(changeSelectId({ componentList, selectId: id }))
+    dispatch(changeSelectId({ componentList, selectId: id, copiedComponent: null }))
   }
   
   if (loading) {

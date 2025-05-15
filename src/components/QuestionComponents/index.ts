@@ -3,9 +3,16 @@ import QuestionTitleConf, { QuestionTitlePropSType } from './QuestionTitle'
 import type, { FC } from 'react'
 import QuetionParagraphConf, { QuestionParagraphPropsType } from './QuestionParagraph'
 import QuestionInfoConf, { QuestionInfoPropsType } from './QuestionInfo'
+import QuestionTextareaConf, { QuestionTextareaPropsType } from './QuestionTextarea'
+import QuestionRadioConf, { QuestionRadioPropsType } from './QuestionRadio'
 
 // 各个组件的prop type
-export type ComponentPropsType = QuestionInputPropsType & QuestionTitlePropSType & QuestionParagraphPropsType & QuestionInfoPropsType
+export type ComponentPropsType = QuestionInputPropsType &
+  QuestionTitlePropSType &
+  QuestionParagraphPropsType &
+  QuestionInfoPropsType &
+  QuestionTextareaPropsType &
+  QuestionRadioPropsType
 
 // 组件的配置
 export type ComponentConfType = {
@@ -21,14 +28,16 @@ const componentConfList: ComponentConfType[] = [
   QuestionInputConf,
   QuestionTitleConf,
   QuetionParagraphConf,
-  QuestionInfoConf
+  QuestionInfoConf,
+  QuestionTextareaConf,
+  QuestionRadioConf
 ]
 
 // 组件分组
 export const componentConfGroup = [
   {
     groupName: '文本显示',
-    components: [QuestionInfoConf, QuestionTitleConf, QuetionParagraphConf]
+    components: [QuestionInfoConf, QuestionTitleConf, QuetionParagraphConf, QuestionTextareaConf]
   },
   {
     groupName: '用户输入',

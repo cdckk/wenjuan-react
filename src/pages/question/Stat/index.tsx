@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTitle } from 'ahooks'
 import styles from './index.module.scss'
 import StatHeader from "./StatHeader";
+import ComponentList from './ComponentList'
 
 const Stat: FC = () => {
   const nav = useNavigate()
@@ -42,7 +43,9 @@ const Stat: FC = () => {
     }
 
     return <>
-      <div className={styles.left}>左</div>
+      <div className={styles.left}>
+        <ComponentList />
+      </div>
       <div className={styles.main}>中</div>
       <div className={styles.right}>右</div>
     </>

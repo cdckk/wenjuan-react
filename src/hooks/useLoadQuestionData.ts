@@ -34,7 +34,7 @@ function useLoadQuestionData() {
 
   useEffect(() => {
     if (!data) return
-    const { title = '', desc = '', js = '', css = '', componentList = [] } = data
+    const { title = '', desc = '', js = '', css = '', isPublished = false, componentList = [] } = data
 
     // 获取默认的selectedId
     let selectedId = ''
@@ -46,7 +46,7 @@ function useLoadQuestionData() {
     dispatch(resetComponents({ componentList, selectId: selectedId, copiedComponent: null }))
   
     // 把pageInfo存储到redux中
-    dispatch(resetPageInfo({ title, desc, js, css }))
+    dispatch(resetPageInfo({ title, desc, js, css, isPublished }))
   }, [data])
 
   useEffect(() => {

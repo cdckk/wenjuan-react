@@ -11,11 +11,17 @@ import useGetComponentInfo from '../../../hooks/useGetComponentsInfo'
 import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
 import EditHeader from "./EditHeader";
+import { useTitle } from 'ahooks'
+import useGetPageInfo from "../../../hooks/useGetPageInfo";
 
 const Edit: FC = () => {
   const dispatch = useDispatch()
   const { componentList } = useGetComponentInfo()
   const { loading } = useLoadQuestionData()
+
+  // 修改标题
+  const { title } = useGetPageInfo()
+  useTitle(`问卷标题 - ${title}`)
 
   function clearSelectedId () {
     dispatch(changeSelectId({ componentList: componentList, selectId:'', copiedComponent: null }))

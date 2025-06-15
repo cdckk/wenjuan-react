@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useRef, useMemo } from "react";
-import produce from 'immer';
+import { produce } from 'immer';
 import styles from './List1.module.scss'
 import '../../components/QuestionCard'
 import QuestionCard from "../../components/QuestionCard";

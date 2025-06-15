@@ -1,47 +1,59 @@
-import React, { FC } from 'react'
-import { componentConfGroup, ComponentConfType } from '../../../components/QuestionComponents'
-import { Typography } from 'antd'
+import React, { FC, useState } from 'react'
+import classNames from 'classnames'
+import useGetComponentInfo from '../../../hooks/useGetComponentsInfo'
+import { getComponentConfByType } from '../../../components/QuestionComponents'
 import styles from './ComponentList.module.scss'
-import { addComponent } from '../../../store/componentsReducer/index'
-import { useDispatch } from 'react-redux'
-import { nanoid } from 'nanoid'
 
-const { Title } = Typography
-
-
-
-const Lib: FC = () => {
-  const dispatch = useDispatch()
-  function genComponent(c: ComponentConfType) {
-    const { title, type, Component, defaultProps } = c
-  
-    function handleClick() {
-      dispatch(addComponent({
-        fe_id: nanoid(),
-        title,
-        type,
-        props: defaultProps 
-      }))
-    }
-  
-    return <div key={type} className={styles.wrapper} onClick={handleClick}>
-      <div className={styles.component }>
-        <Component />
-      </div>
-    </div>
-  }
-  
-  return <>
-    {
-      componentConfGroup.map((group, index) => {
-        const { groupName, components } = group
-        return <div key={index}>
-          <Title level={3} style={{ fontSize: '16px', marginTop: index > 0 ? '20px' : '0' }}>{groupName}</Title>
-          <div>{components.map(c => genComponent(c))}</div>
-        </div>
-      })
-    }
-  </>
+type PropsType = {
+  selectedComponentId: string
+  setSelectedComponentId: (id: string) => void
+  setSelectedComponentType: (type: string) => void
 }
 
-export default Lib
+const ComponentList: FC<PropsType> = (props: PropsType) => {
+  const {selectedComponentId, setSelectedComponentId, setSelectedComponentType} = props
+  const { componentList } = useGetComponentInfo()
+
+  // const [selectedComponentId, setSelectedComponentId] = useState('')
+  
+  return (
+    <div className={styles.container}>
+      {componentList
+        .filter(c => !c.isHidden)
+        .map(c => {
+          const { fe_id, props,type } = c
+
+          const componentConf = getComponentConfByType(type)
+          if (componentConf == null) return null
+
+          const { Component } = componentConf
+
+          // 拼接 class name
+          const wrapperDefaultClassName = styles['component-wrapper']
+          const selectedClassName = styles.selected
+          const wrapperClassName = classNames({
+            [wrapperDefaultClassName]: true,
+            [selectedClassName]: fe_id === selectedComponentId
+          })
+
+          return (
+            <div
+              className={wrapperClassName}
+              key={fe_id}
+              onClick={() => {
+                setSelectedComponentId(fe_id)
+                setSelectedComponentType(type)
+              }}
+            >
+              <div className={styles.component}>
+                <Component {...props}></Component>
+              </div>
+            </div>
+          )
+        })
+      }
+    </div>
+  )
+}
+
+export default ComponentList

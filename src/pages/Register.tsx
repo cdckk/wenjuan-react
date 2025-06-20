@@ -1,14 +1,29 @@
 import React, { FC } from "react";
 import { Outlet, Link } from 'react-router-dom'
-import { Typography, Space, Form, Input, Button } from 'antd'
+import { Typography, Space, Form, Input, Button, message } from 'antd'
 import { UserAddOutlined} from '@ant-design/icons'
 import styles from './Register.module.scss'
+import { register } from "../services/auth";
+import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography
 
 const Register: FC = () => {
+  const nav = useNavigate()
+
   const onFinish = (values: any) => {
     console.log(values)
+    const params = {
+      username: values.username,
+      password: values.password,
+      nickname: values.nickname
+    }
+    register(params).then(res => {
+      if (res.errno === 0) {
+        message.success('注册成功，请登录')
+        nav('/login')
+      }
+    })
   }
   return (
     <div className={styles.container}>
@@ -33,7 +48,7 @@ const Register: FC = () => {
           <Input.Password />
         </Form.Item>
         <Form.Item label="昵称" name="nickname">
-          <Input.Password />
+          <Input />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 6, span: 16  }}>
           <Space>

@@ -16,7 +16,7 @@ instance.interceptors.response.use((res: any) => {
 
       throw new Error(msg)
     }
-    return data as any
+    return resData as any
   }
 )
 

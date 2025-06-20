@@ -1,8 +1,10 @@
 import React, { FC, useEffect } from "react";
 import { Outlet, Link } from 'react-router-dom'
-import { Typography, Space, Form, Input, Button, Checkbox } from 'antd'
+import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd'
 import { UserAddOutlined} from '@ant-design/icons'
 import styles from './Login.module.scss'
+import { login } from "../services/auth";
+import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography
 
@@ -29,6 +31,7 @@ function getUserInfofromStorage() {
 const Login: FC = () => {
 
   const [form] = Form.useForm()
+  const nav = useNavigate()
 
   useEffect(() => {
     const { username, password } = getUserInfofromStorage()
@@ -40,6 +43,17 @@ const Login: FC = () => {
     console.log(values)
     if (values.remember) {
       rememberUser(username, password)
+      const params = {
+        username,
+        password
+      }
+      login(params).then(res => {
+        if (res.errno === 0) {
+          message.success('登录成功')
+          // 返回首页
+          nav('/')
+        }
+      })
     } else {
       deleteUserFromStorage()
     }
